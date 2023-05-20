@@ -1,4 +1,5 @@
 using Telegram.Bot;
+using System.Net.Http.Headers;
 
 namespace LazyMovie
 {
@@ -6,14 +7,27 @@ namespace LazyMovie
     {
         public static void Main(string[] args)
         {
+            
             IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
                 {
-                    var botClient = new TelegramBotClient(GetEnvironmentVariable("TELEGRAM_API_TOKEN"));
+                    ITelegramBotClient botClient =
+                        new TelegramBotClient(GetEnvironmentVariable("TELEGRAM_API_TOKEN")!);
+                    services.AddSingleton<IMovieClient, MovieClient>();
+                    services.AddSingleton<ITelegramMovieClient, TelegramMovieClient>();
                     services.AddSingleton(typeof(ITelegramBotClient), botClient);
-                    services.AddHttpClient();
                     services.AddHostedService<Worker>();
-                    //services.AddSingleton<ITelegramBotClient, Worker>();
+                    services.AddHttpClient(
+                        name: "streamingAPI", 
+                        configureClient: options =>
+                        {
+                            options.DefaultRequestHeaders.Accept.Add(
+                                new MediaTypeWithQualityHeaderValue(
+                                    mediaType: "application/json", quality: 1.0
+                                )
+                            );
+                        }
+                    );
                 })
                 .Build();
 

@@ -28,5 +28,28 @@ namespace LazyMovie
         [property: JsonPropertyName("directors")]
         public List<string> Directors { get; set; } = new List<string>();
 
+        public override string ToString()
+        {
+            return $"Type: {Type}\n" +
+                $"Title: {Title}\n" +
+                $"Year: {Year}\n" +
+                $"Overview: {Overview}\n" +
+                $"Directors: {GetStringList(Directors)}\n" +
+                $"Cast: {GetStringList(Cast)}";
+        }
+
+        private string GetStringList(List<string> list)
+        {
+            var sb = new StringBuilder();
+            list.ForEach(d =>
+            {
+                sb.Append(d);
+                if (d != list.Last())
+                {
+                    sb.Append(", ");
+                }
+            });
+            return sb.ToString();
+        }
     }
 }
