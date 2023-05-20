@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "LazyMovie": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "TELEGRAM_API_TOKEN": "6043755751:AAGjM2REvT22AOfrjlwoRjc94MYbd5dyIks",
+        "STREAMING_AVAILABITY_TOKEN": "d5be745721mshe3e915078cff247p1dd875jsn9d63c10dc80a"
+      }
+    }
+  }
+}
